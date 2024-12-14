@@ -28,7 +28,7 @@ const products = [
 ]
 
 let params = { lipsColor: "0 0 0 0", browsColor: "0 0 0 0", softlight: "0.0" }
-
+updateProductInfo(products[2]);
 // Attach event listeners
 document.getElementById('lips').addEventListener('click', () => startAR('lips'));
 document.getElementById('brows').addEventListener('click', () => startAR('brows'));
