@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    command:
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true" 
+      - "--certificatesresolvers.myresolver.acme.email=gevernus@mail.ru"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web" 
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+    restart: unless-stopped
+    depends_on:
+      quickstart-web:
+        condition: service_healthy  # Wait for `quickstart-web` to be healthy before starting
+
+  quickstart-web:
+    build:
+      context: .
+    container_name: quickstart-web
+    ports:
+      - "8080:8080"
+    labels:
+      # HTTP router
+      - "traefik.http.routers.quickstart-web-http.rule=Host(`touch-the-beauty-ai.shop`)"
+      - "traefik.http.routers.quickstart-web-http.entrypoints=web"
+      
+      # HTTPS router
+      - "traefik.http.routers.quickstart-web-https.rule=Host(`touch-the-beauty-ai.shop`)"
+      - "traefik.http.routers.quickstart-web-https.entrypoints=websecure"
+      - "traefik.http.routers.quickstart-web-https.tls.certresolver=myresolver"
+      
+      # Load balancing configuration
+      - "traefik.http.services.quickstart-web.loadbalancer.server.port=8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
