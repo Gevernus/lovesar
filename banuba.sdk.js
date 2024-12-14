@@ -14,14 +14,14 @@ const {
 
 const sdkUrl = "https://cdn.jsdelivr.net/npm/@banuba/webar";
 const modulesList = [
-    "background",
-    "body",
-    "eyes",
+    // "background",
+    // "body",
+    // "eyes",
     "face_tracker",
-    "hair",
-    "hands",
+    // "hair",
+    // "hands",
     "lips",
-    "skin",
+    // "skin",
 ];
 
 console.log("Load player with SDK: ", SDK_VERSION);
