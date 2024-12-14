@@ -1,5 +1,32 @@
 import { setParams } from './banuba.sdk.js';
 
+const products = [
+    {
+        "name": "Cosmetic Pencil (Black brown), AS company",
+        "price": 5.00,
+        "image": "public/shop-pencil.png",
+        "description": "Cosmetic Pencil (Black brown), AS company"
+    },
+    {
+        "name": "Green soap with disinfecting property (skin antiseptic)",
+        "price": 10.00,
+        "image": "public/shop-spray.png",
+        "description": "Green soap with disinfecting property (skin antiseptic)"
+    },
+    {
+        "name": "Concentrate cherry lip pigment, 12ml",
+        "price": 39.80,
+        "image": "public/shop-cherry.png",
+        "description": "Concentrate cherry lip pigment"
+    },
+    {
+        "name": "Concentrate bloody mary lip pigment, 6ml",
+        "price": 25.80,
+        "image": "public/shop-mary.png",
+        "description": "Concentrate bloody mary lip pigment"
+    }
+]
+
 let params = { lipsColor: "0 0 0 0", browsColor: "0 0 0 0", softlight: "0.0" }
 
 // Attach event listeners
@@ -7,7 +34,7 @@ document.getElementById('lips').addEventListener('click', () => startAR('lips'))
 document.getElementById('brows').addEventListener('click', () => startAR('brows'));
 document.getElementById('care').addEventListener('click', () => startAR('care'));
 document.getElementById('book').addEventListener('click', () => showList());
-document.getElementById('brush').addEventListener('click', () => startAR('lipsColor'));
+document.getElementById('brush').addEventListener('click', () => startAR('lips'));
 document.getElementById('cart').addEventListener('click', () => showCart());
 
 const sectionDropdown = document.getElementById("section-dropdown");
@@ -19,12 +46,18 @@ sectionDropdown.addEventListener("change", (event) => {
     const selectedSection = event.target.value;
 
     // Show/Hide elements based on selection
-    if (selectedSection === "lips" || selectedSection === "brows") {
+    if (selectedSection === "lips") {
+        updateProductInfo(products[2]);
         colorPalette.style.display = "flex";
         careSlider.style.display = "none";
     } else if (selectedSection === "care") {
+        updateProductInfo(products[1]);
         colorPalette.style.display = "none";
         careSlider.style.display = "block";
+    } else if (selectedSection === "brows") {
+        updateProductInfo(products[0]);
+        colorPalette.style.display = "flex";
+        careSlider.style.display = "none";
     }
 });
 
@@ -109,4 +142,47 @@ function convertColorToNormalized(color) {
     const aNormalized = a.toFixed(2);
 
     return `${rNormalized} ${gNormalized} ${bNormalized} ${aNormalized}`;
+}
+
+// Function to create product element and append it to the cart
+function addProductToCart(product) {
+    const cartContent = document.querySelector('.cart-content');
+
+    const productElement = document.createElement('div');
+    productElement.classList.add('product');
+
+    productElement.innerHTML = `
+    <div class="product-image">
+      <img src="${product.image}" alt="${product.name}">
+    </div>
+    <div class="product-details">
+      <h3>${product.name}</h3>
+      <p>${product.price}</p>
+      <button class="remove-button">X</button>
+    </div>
+  `;
+
+    // Append the new product element to the cart-content container
+    cartContent.appendChild(productElement);
+    const removeButton = productElement.querySelector('.remove-button');
+    removeButton.addEventListener('click', function () {
+        cartContent.removeChild(productElement);
+    });
+}
+
+function updateProductInfo(product) {
+    const productInfo = document.querySelector('.product-info');
+    productInfo.innerHTML = `
+    <img class="product-image" src="${product.image}" alt="Product Image" />
+    <div class="product-details">
+      <div class="product-title">${product.name}</div>
+      <img class="recipe-button" src="public/buy.png" alt="Buy button" />
+    </div>
+  `;
+
+    // Add event listener to the "Buy" button inside product-info
+    const buyButton = productInfo.querySelector('.recipe-button');
+    buyButton.addEventListener('click', function () {
+        addProductToCart(product);
+    });
 }
