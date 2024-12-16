@@ -57,6 +57,7 @@ export const setParams = async (params) => {
     effect.evalJs(`Lips.color("${params.lipsColor}")`)
     effect.evalJs(`Brows.color("${params.browsColor}")`)
     effect.evalJs(`Makeup.eyeshadow("${params.eyeShadow ? params.eyeShadow : "0 0 0 0"}")`)
+    effect.evalJs(`Makeup.eyeliner("${params.eyeLiner ? params.eyeLiner : "0 0 0 0"}")`)
     effect.evalJs(`Makeup.blushes("${params.blushes ? params.blushes : "0 0 0 0"}")`)
     // effect.evalJs(`Makeup.blushes("0.70 0.15 0.16 0.98")`)
     effect.evalJs(`Eyelashes.color("${params.eyeLashes ? params.eyeLashes : "0 0 0 0"}")`)

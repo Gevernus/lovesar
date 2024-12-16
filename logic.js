@@ -31,7 +31,7 @@ const products = [
     {
         "name": "Eyeshadow Pencil, AS company",
         "price": 8.00,
-        "image": "public/shop-pencil.png",
+        "image": "public/shop-eyeshadow.jpeg",
         "description": "Eyeshadow Pencil, AS company",
         "colors": [
             "#EDB789", "#A5A3A4", "#B24A2F", "#DEA98C", "#786834",
@@ -41,7 +41,7 @@ const products = [
     {
         "name": "Blushes Pencil, AS company",
         "price": 4.00,
-        "image": "public/shop-pencil.png",
+        "image": "public/shop-blushes.jpg",
         "description": "Blushes Pencil, AS company",
         "colors": [
             "#D8867B", "#D897B2", "#EF2B41", "#F48E7F", "#A13555",
@@ -51,11 +51,20 @@ const products = [
     {
         "name": "Lashes Pencil, AS company",
         "price": 12.00,
-        "image": "public/shop-pencil.png",
+        "image": "public/shop-lashes.webp",
         "description": "Lashes Pencil, AS company",
         "colors": [
             "#FFFFFF", "#000000", "#8B4513"
         ] // Colors for ресницы
+    },
+    {
+        "name": "Eyeliner, AS company",
+        "price": 14.00,
+        "image": "public/shop-eyeliner.jpg",
+        "description": "Eyeliner, AS company",
+        "colors": [
+            "#FFFFFF", "#000000", "#8B4513"
+        ] // Colors for подводки
     }
 ];
 
@@ -68,6 +77,7 @@ document.getElementById('care').addEventListener('click', () => startAR('care'))
 document.getElementById('blushes').addEventListener('click', () => startAR('blushes'));
 document.getElementById('eyeshadow').addEventListener('click', () => startAR('eyeshadow'));
 document.getElementById('lashes').addEventListener('click', () => startAR('lashes'));
+document.getElementById('eyeliner').addEventListener('click', () => startAR('eyeliner'));
 document.getElementById('book').addEventListener('click', () => showList());
 document.getElementById('brush').addEventListener('click', () => startAR('lips'));
 document.getElementById('cart').addEventListener('click', () => showCart());
@@ -107,6 +117,10 @@ sectionDropdown.addEventListener("change", (event) => {
         updateProductInfo(products[5]);
         colorPalette.style.display = "flex";
         careSlider.style.display = "none";
+    } else if (selectedSection === "eyeliner") {
+        updateProductInfo(products[6]);
+        colorPalette.style.display = "flex";
+        careSlider.style.display = "none";
     }
 });
 
@@ -128,6 +142,8 @@ colorPalette.addEventListener("click", (event) => {
             params.eyeShadow = convertColorToNormalized(bgColor);
         } else if (selectedSection === "lashes") {
             params.eyeLashes = convertColorToNormalized(bgColor);
+        } else if (selectedSection === "eyeliner") {
+            params.eyeLiner = convertColorToNormalized(bgColor);
         }
         setParams(params);
         console.log("Updated Params:", params);
