@@ -275,10 +275,12 @@ function updateProductInfo(product) {
     const colorPalette = document.querySelector('#color-palette');
 
     if (product.colors && product.colors.length > 0) {
-        colorPalette.innerHTML = product.colors.map(color => `
+        colorPalette.innerHTML = `
+        <div class="color-circle" style="background-color: transparent; border: 1px dashed #ccc;" title="No Color"></div>
+        ${product.colors.map(color => `
             <div class="color-circle" style="background-color: ${color};" title="${color}">
             </div>
-        `).join('');
+        `).join('')}`;
     } else {
         colorPalette.innerHTML = '<p>No colors available for this product.</p>';
     }
