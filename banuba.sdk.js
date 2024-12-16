@@ -56,5 +56,10 @@ await player.applyEffect(effect);
 export const setParams = async (params) => {
     effect.evalJs(`Lips.color("${params.lipsColor}")`)
     effect.evalJs(`Brows.color("${params.browsColor}")`)
+    effect.evalJs(`Makeup.eyeshadow("${params.eyeShadow ? params.eyeShadow : "0 0 0 0"}")`)
+    effect.evalJs(`Makeup.blushes("${params.blushes ? params.blushes : "0 0 0 0"}")`)
+    // effect.evalJs(`Makeup.blushes("0.70 0.15 0.16 0.98")`)
+    effect.evalJs(`Eyelashes.color("${params.eyeLashes ? params.eyeLashes : "0 0 0 0"}")`)
+    // effect.evalJs(`Makeup.eyeshadow("0.70 0.15 0.16 0.98")`)
     effect.evalJs(`Softlight.strength(${params.softlight})`)
 };
